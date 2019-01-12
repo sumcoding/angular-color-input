@@ -1,0 +1,43 @@
+<div class="color-input">
+    <input
+        class="input-text"
+        [formControl]="control"
+        [attr.type]="type"
+        [attr.id]="id"
+        [attr.name]="name"
+        [required]="required"
+        [attr.disabled]="disabled ? '' : null"
+        (input)="change($event)">
+
+	<span
+		[attr.disabled]="disabled"
+		class="color-swatch"
+		[ngClass]="{'undefined': error}"
+		[ngStyle]="style">
+	</span>
+	<div
+		[attr.id]="name + '-picker'"
+		class="color-picker"
+		(mouseup)="isMouseDown($event)"
+		[hidden]="showColorPicker">
+		<div
+			class="color-grid"
+			(drag)="movePointer($event)"
+		    (click)="movePointer($event)"
+			(mousemove)="movePointer($event)"
+			(mousedown)="isMouseDown($event)"
+			(mouseup)="isMouseDown($event)">
+			<div class="grid-overlay-light" [ngStyle]="grid"></div>
+			<div class="grid-overlay-dark"></div>
+			<div class="color-pointer" [ngStyle]="pointer"></div>
+		</div>
+		<div
+			class="color-hue"
+			(click)="moveSlider($event)"
+			(mousemove)="moveSlider($event)"
+			(mousedown)="isMouseDown($event)"
+			(mouseup)="isMouseDown($event)">
+			<div class="color-slider" [ngStyle]="slider"></div>
+		</div>
+	</div>
+</div>
