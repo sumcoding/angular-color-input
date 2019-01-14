@@ -1,2 +1,2 @@
 # angular-color-input
-Angular color picker component
+Angular HEX color picker component

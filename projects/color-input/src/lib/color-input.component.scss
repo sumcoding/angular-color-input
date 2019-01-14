@@ -1,0 +1,164 @@
+
+$spacing-grid: (
+    small: 4px,
+    normal: 8px,
+    medium: 16px,
+    large: 24px,
+    xlarge: 32px
+);
+
+@function spacing($type: normal) {
+    @return map-get($spacing-grid, $type);
+}
+
+@mixin box-shadow($x-axis: 0, $y-axis: 1px, $blur: 2px, $color: rgba($black, .25)) {
+	box-shadow: $x-axis $y-axis $blur $color;
+}
+
+@mixin disabled($pointer-events: none) {
+	pointer-events: $pointer-events;
+	cursor: default;
+}
+
+$grid-color: #808080;
+$grid-size: 100px;
+$swatch-size: spacing(medium);
+$pointer-size: spacing();
+$slider-height: spacing();
+$hue-width: spacing(medium);
+$border-color: #b9b9b9;
+$white: #ffffff;
+$black: #000000;
+$hue: (
+	1: rgb(255, 0, 0),
+	2: rgb(255, 255, 0),
+	3: rgb(0, 255, 0),
+	4: rgb(0, 255, 255),
+	5: rgb(0, 0, 255),
+	6: rgb(255, 0, 255),
+);
+
+
+:host {
+	display: block;
+    position: relative;
+
+    input {
+        margin: spacing() 0;
+        border-radius: spacing(small);
+        color: $black;
+        border: 1px solid $border-color;
+        padding: 0 spacing() 0 spacing(large);
+        height: spacing(large);
+
+        &::placeholder {
+            color: $grid-color;
+        }
+
+        &:focus {
+            outline: 0;
+            border: solid 1px $black;
+            background: $white;
+            color: $black;
+        }
+
+        &[disabled] {
+            @include disabled();
+        }
+
+        &.ng-invalid {
+            color: red;
+            border-color: red;
+        }
+    }
+
+	.color-input {
+		display: block;
+		position: relative;
+
+		.color-swatch {
+			width: $swatch-size;
+			height: $swatch-size;
+			display: block;
+			position: absolute;
+			top: spacing(large) / 2;
+			left: spacing(small);
+			border-radius: spacing(small);
+			cursor: pointer;
+
+			&.undefined {
+				background-size: 5px 5px;
+				background-image: radial-gradient(circle, $border-color 1px, $white 1px);
+				background-position: center;
+			}
+		}
+	}
+
+	.color-picker {
+		@include box-shadow(3px, 6px, 20px);
+		border-radius: 6px;
+		overflow: hidden;
+		display: flex;
+		padding: 6px;
+		position: absolute;
+		left: -2px;
+		bottom: -135px;
+		z-index: 1;
+        background: $white;
+
+        &[hidden] {
+            display: none;
+        }
+	}
+
+	.color-grid,
+	.grid-overlay-dark,
+	.grid-overlay-light {
+		width: $grid-size;
+		height: $grid-size;
+	}
+
+	.color-grid {
+		display: table-cell;
+		position: relative;
+		cursor: crosshair;
+
+		.color-pointer {
+			position: absolute;
+			width: $pointer-size;
+			height: $pointer-size;
+			border-radius: $pointer-size;
+			border: 1px solid $white;
+			pointer-events: none;
+		}
+
+		.grid-overlay-light {
+			position: absolute;
+			top: 0;
+			background-image: linear-gradient(to right, rgba($white, 1) 0%, rgba($white, 0) 100%);
+		}
+
+		.grid-overlay-dark {
+			position: absolute;
+			background-image: linear-gradient(to bottom, rgba($black, 0) 0%, rgba($black, 1) 100%);
+		}
+	}
+
+	.color-hue {
+		height: $grid-size;
+		width: $hue-width;
+		margin-left: 6px;
+		position: relative;
+		background: linear-gradient(to top, map-get($hue, 1) 0%, map-get($hue, 2) 17%, map-get($hue, 3) 33%, map-get($hue, 4) 50%, map-get($hue, 5) 67%, map-get($hue, 6) 83%, map-get($hue, 1) 100%);
+
+		.color-slider {
+			width: $hue-width + 4;
+			height: $slider-height;
+			position: absolute;
+			border: 1px solid $white;
+			pointer-events: none;
+			left: -2px;
+			border-radius: 1px;
+		}
+	}
+}

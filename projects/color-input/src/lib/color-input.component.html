@@ -11,15 +11,16 @@
 
 	<span
 		[attr.disabled]="disabled"
-		class="color-swatch"
+        class="color-swatch"
+        (click)="toggleColorPicker($event)"
 		[ngClass]="{'undefined': error}"
-		[ngStyle]="style">
+		[ngStyle]="swatch">
 	</span>
 	<div
 		[attr.id]="name + '-picker'"
 		class="color-picker"
 		(mouseup)="isMouseDown($event)"
-		[hidden]="showColorPicker">
+		[hidden]="!showColorPicker">
 		<div
 			class="color-grid"
 			(drag)="movePointer($event)"
@@ -40,4 +41,10 @@
 			<div class="color-slider" [ngStyle]="slider"></div>
 		</div>
 	</div>
+</div>
+<div *ngIf="control.errors">
+    <p
+        *ngFor="let c of [control.errors]"
+        [textContent]="c.max | json">
+    ></p>
 </div>
